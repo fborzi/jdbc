@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +18,8 @@ public class EmpleadoDAO {
     public EmpleadoModel guardar(Connection conn, EmpleadoModel empleado) throws SQLException {
         String sql = "INSERT INTO empleados (nombre, direccion, email) VALUES (?, ?, ?)";
 
-        // Statement.RETURN_GENERATED_KEYS permite obtener el ID autoincremental generado por la BD
-        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        // PreparedStatement.RETURN_GENERATED_KEYS permite obtener el ID autoincremental generado por la BD
+        try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, empleado.getNombre());
             stmt.setString(2, empleado.getDireccion());
             stmt.setString(3, empleado.getEmail());

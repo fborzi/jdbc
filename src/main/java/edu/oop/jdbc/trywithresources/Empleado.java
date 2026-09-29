@@ -1,6 +1,5 @@
 package edu.oop.jdbc.trywithresources;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,7 +21,6 @@ public class Empleado {
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, 101);
             // Anidamos el ResultSet para cerrar la lectura ni bien termina el procesamiento
-            CallableStatement cs = con.prepareCall("{call some_stored_procedure(?)}");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     System.out.println("Empleado: " + rs.getString("name"));

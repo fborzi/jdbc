@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * Clase de ejemplo con las operaciones más comunes de ResultSet en JDBC:
@@ -174,21 +173,28 @@ public class ResultSetEjemplo {
 
     // Inicialización de tabla y datos en memoria para la demostración
     private static void inicializarDatosDePrueba(Connection conn) throws SQLException {
-        try (Statement stmt = conn.createStatement()) {
-            stmt.execute("""
-                    CREATE TABLE empleados (
-                        id INT PRIMARY KEY,
-                        nombre VARCHAR(100) NOT NULL,
-                        salario DECIMAL(12, 2) NOT NULL,
-                        bono DECIMAL(12, 2),
-                        activo BOOLEAN NOT NULL,
-                        fecha_ingreso DATE NOT NULL
-                    );
-                    """);
+        String createTable = """
+                CREATE TABLE empleados (
+                    id INT PRIMARY KEY,
+                    nombre VARCHAR(100) NOT NULL,
+                    salario DECIMAL(12, 2) NOT NULL,
+                    bono DECIMAL(12, 2),
+                    activo BOOLEAN NOT NULL,
+                    fecha_ingreso DATE NOT NULL
+                );
+                """;
 
-            stmt.execute("INSERT INTO empleados VALUES (1, 'Ana Pérez', 850000.00, 50000.00, true, '2023-05-10')");
-            stmt.execute("INSERT INTO empleados VALUES (2, 'Carlos Gómez', 780000.00, NULL, true, '2024-01-20')");
-            stmt.execute("INSERT INTO empleados VALUES (3, 'María López', 910000.00, 75000.00, false, '2022-11-01')");
+        String insertData = """
+                INSERT INTO empleados VALUES (1, 'Ana Pérez', 850000.00, 50000.00, true, '2023-05-10');
+                INSERT INTO empleados VALUES (2, 'Carlos Gómez', 780000.00, NULL, true, '2024-01-20');
+                INSERT INTO empleados VALUES (3, 'María López', 910000.00, 75000.00, false, '2022-11-01');
+                """;
+
+        try (PreparedStatement psCreate = conn.prepareStatement(createTable)) {
+            psCreate.executeUpdate();
+        }
+        try (PreparedStatement psInsert = conn.prepareStatement(insertData)) {
+            psInsert.executeUpdate();
         }
     }
 }

@@ -3,9 +3,9 @@ package edu.oop.jdbc.data;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * Clase demostrativa con las operaciones más comunes de DatabaseMetaData en JDBC:
@@ -133,24 +133,29 @@ public class DatabaseMetaDataEjemplo {
 
     // Inicialización de tablas relacionadas para la demostración
     private static void inicializarEsquemaDePrueba(Connection conn) throws SQLException {
-        try (Statement stmt = conn.createStatement()) {
-            stmt.execute("""
-                    CREATE TABLE departamentos (
-                        id INT AUTO_INCREMENT PRIMARY KEY,
-                        nombre VARCHAR(80) NOT NULL
-                    );
-                    """);
+        String crearDepartamentos = """
+                CREATE TABLE departamentos (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    nombre VARCHAR(80) NOT NULL
+                );
+                """;
 
-            stmt.execute("""
-                    CREATE TABLE empleados (
-                        id INT AUTO_INCREMENT PRIMARY KEY,
-                        nombre VARCHAR(100) NOT NULL,
-                        email VARCHAR(120) UNIQUE,
-                        salario DECIMAL(12, 2) NOT NULL,
-                        departamento_id INT NOT NULL,
-                        CONSTRAINT fk_empleado_depto FOREIGN KEY (departamento_id) REFERENCES departamentos(id)
-                    );
-                    """);
+        String crearEmpleados = """
+                CREATE TABLE empleados (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    nombre VARCHAR(100) NOT NULL,
+                    email VARCHAR(120) UNIQUE,
+                    salario DECIMAL(12, 2) NOT NULL,
+                    departamento_id INT NOT NULL,
+                    CONSTRAINT fk_empleado_depto FOREIGN KEY (departamento_id) REFERENCES departamentos(id)
+                );
+                """;
+
+        try (PreparedStatement psDeptos = conn.prepareStatement(crearDepartamentos)) {
+            psDeptos.executeUpdate();
+        }
+        try (PreparedStatement psEmpleados = conn.prepareStatement(crearEmpleados)) {
+            psEmpleados.executeUpdate();
         }
     }
 }
