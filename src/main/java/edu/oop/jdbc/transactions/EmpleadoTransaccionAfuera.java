@@ -1,4 +1,4 @@
-package edu.oop.jdbc;
+package edu.oop.jdbc.transactions;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

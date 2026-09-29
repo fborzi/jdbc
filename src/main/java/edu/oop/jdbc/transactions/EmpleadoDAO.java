@@ -1,4 +1,4 @@
-package edu.oop.jdbc;
+package edu.oop.jdbc.transactions;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -86,7 +86,7 @@ public class EmpleadoDAO {
 
     public void actualizarDireccion(Connection conn, String nombre, String direccion) throws SQLException {
         String query = "UPDATE empleados SET direccion = ? WHERE nombre = ?";
-        // Usamos try-with-resources SOLO para el PreparedStatement. La conexión NO se cierra aquí.
+        // Usamos try-with-resources SOLO para el PreparedStatement. La conexión NO se cierra acá.
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, direccion);
             stmt.setString(2, nombre);

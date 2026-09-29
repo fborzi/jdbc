@@ -1,4 +1,4 @@
-package edu.oop.jdbc;
+package edu.oop.jdbc.transactions;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +20,7 @@ public class EmpleadoTransaccionLegacy {
         String actualizarDireccion = "UPDATE empleados SET direccion = ? WHERE nombre = ?";
         String actualizarEmail = "UPDATE empleados SET email = ? WHERE nombre = ?";
 
-        // 1. Declaramos las referencias fuera del bloque try para que sean visibles en catch y finally
+        // 1. Declaramos las referencias afuera del bloque try para que sean visibles en catch y finally
         Connection conn = null;
         PreparedStatement stmt1 = null;
         PreparedStatement stmt2 = null;
@@ -49,7 +49,7 @@ public class EmpleadoTransaccionLegacy {
         } catch (SQLException e) {
             System.err.println("Ocurrió un error en la transacción. Revirtiendo cambios: " + e.getMessage());
 
-            // 4. Realizamos el rollback sobre la MISMA conexión si llegó a abrirse
+            // 4. Hacemos el rollback sobre la MISMA conexión si llegó a abrirse
             if (conn != null) {
                 try {
                     conn.rollback();

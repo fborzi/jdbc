@@ -1,4 +1,4 @@
-package edu.oop.jdbc.ejemplo.trywithresources;
+package edu.oop.jdbc.trywithresources;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

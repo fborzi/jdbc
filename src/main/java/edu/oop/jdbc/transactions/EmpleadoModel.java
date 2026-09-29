@@ -1,4 +1,4 @@
-package edu.oop.jdbc;
+package edu.oop.jdbc.transactions;
 
 /**
  * Clase de dominio (Entidad / Modelo) que representa una fila de la tabla 'empleados'.
